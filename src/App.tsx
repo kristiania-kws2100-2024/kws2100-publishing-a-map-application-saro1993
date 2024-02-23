@@ -5,7 +5,7 @@ export function App() {
     //Hoved comoonent for å kjøre hele programet!
     //<GeoMap />
     <>
-      <p> Welcome to our page!! </p>
+      <p> Welcome to our page!!! </p>
     </>
   );
 }

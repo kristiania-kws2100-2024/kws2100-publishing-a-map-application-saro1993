@@ -113,7 +113,7 @@ export function EmergencyLayerCheckbox() {
           checked={checked}
           onChange={(e) => setChecked(e.target.checked)}
         />
-        Show emergency shelters
+        Show emergency shelterss
         {activeFeature &&
           " (" +
             activeFeature.getProperties().adresse +

@@ -1,5 +1,4 @@
 import { useContext, useEffect, useState } from "react";
-import { useLayer } from "../map/useLayer";
 import VectorLayer from "ol/layer/Vector";
 import VectorSource from "ol/source/Vector";
 import { GeoJSON } from "ol/format";
@@ -16,6 +15,7 @@ const civilLayer = new VectorLayer({
     url: civilFileLocation,
     format: new GeoJSON(),
   }),
+  visible: false, // Initially set the layer to invisible
 });
 
 type CivilProperties = {
@@ -26,20 +26,6 @@ type CivilProperties = {
 type CivilFeature = Feature<Point> & {
   getProperties(): CivilProperties;
 };
-
-function civilStyle(f: FeatureLike) {
-  const feature = f as CivilFeature;
-  const civil = feature.getProperties();
-  return new Style({
-    image: new Circle({
-      stroke: new Stroke({ color: "white", width: 1 }),
-      fill: new Fill({
-        color: civil.navn === "Oslo" ? "blue" : "purple",
-      }),
-      radius: 5,
-    }),
-  });
-}
 
 function activeCivilStyle(f: FeatureLike, resolution: number) {
   const feature = f as CivilFeature;
@@ -71,8 +57,13 @@ export function CivilLayerCheckbox() {
   const [activeFeature, setActiveFeature] = useState<CivilFeature>();
 
   useEffect(() => {
-    // Add civilLayer to the map layers when checked
-    if (checked && civilLayer) {
+    // Update layer visibility based on checked state
+    civilLayer.setVisible(checked);
+  }, [checked]);
+
+  useEffect(() => {
+    // Add or remove civilLayer from the feature layers list
+    if (checked) {
       setFeatureLayers((prevLayers) => [...prevLayers, civilLayer]);
     } else {
       setFeatureLayers((prevLayers) =>
@@ -107,7 +98,7 @@ export function CivilLayerCheckbox() {
   }, [activeFeature]);
 
   useEffect(() => {
-    // Add pointer move event listener when checked
+    // Add or remove pointer move event listener based on checked state
     if (checked) {
       map?.on("pointermove", handlePointerMove);
     } else {
@@ -120,7 +111,7 @@ export function CivilLayerCheckbox() {
     <div>
       <label>
         <input
-          type={"checkbox"}
+          type="checkbox"
           checked={checked}
           onChange={(e) => setChecked(e.target.checked)}
         />

@@ -17,7 +17,7 @@ import { map, MapContext } from "../map/mapContext";
 import { EmergencyAside } from "../emergrncy-shelter/emergencyAside";
 import { EmergencyLayerCheckbox } from "../emergrncy-shelter/emergencyLayerCheckbox";
 import { CivilAside } from "../civil-defense-region/CivilAside";
-import { CivilLayerCheckbox } from "..//civil-defense-region/civilLayerCheckbox";
+import { CivilLayerCheckbox } from "../civil-defense-region/civilLayerCheckbox";
 import VectorLayer from "ol/layer/Vector";
 
 export function Application() {
@@ -64,10 +64,11 @@ export function Application() {
   }, []);
 
   useEffect(() => {
-    const handleMapClick = (event: MapBrowserEvent<any>) => {
+    const handleMapClick = (event: MapBrowserEvent<MouseEvent>) => {
       map.forEachFeatureAtPixel(event.pixel, (feature) => {
         const properties = feature.getProperties();
         console.log(properties.romnr, properties.plasser, properties.adresse);
+        console.log(properties.navn, properties.url);
       });
     };
 

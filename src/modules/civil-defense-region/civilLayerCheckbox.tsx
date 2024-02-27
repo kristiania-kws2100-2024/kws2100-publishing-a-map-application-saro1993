@@ -8,8 +8,7 @@ import { Point } from "ol/geom";
 import { FeatureLike } from "ol/Feature";
 import { MapContext } from "../map/mapContext";
 
-const civilFileLocation =
-  "https://github.com/kristiania-kws2100-2024/kws2100-publishing-a-map-application-saro1993/blob/dc4cc2b326b1390c39c73bbf82c7ae8516f18112/public/data/Sivilforsvarsdistrikter.json";
+const civilFileLocation = "./data/Sivilforsvarsdistrikter.json";
 
 type CivilProperties = {
   navn: string;

@@ -1,5 +1,4 @@
 import { useContext, useEffect, useState } from "react";
-import { useLayer } from "../map/useLayer";
 import VectorLayer from "ol/layer/Vector";
 import VectorSource from "ol/source/Vector";
 import { GeoJSON } from "ol/format";
@@ -8,46 +7,31 @@ import { Feature, MapBrowserEvent } from "ol";
 import { Point } from "ol/geom";
 import { FeatureLike } from "ol/Feature";
 import { MapContext } from "../map/mapContext";
+
 const civilFileLocation = "data/Sivilforsvarsdistrikter.json";
-console.log(civilFileLocation);
 
 const civilLayer = new VectorLayer({
   source: new VectorSource({
     url: civilFileLocation,
     format: new GeoJSON(),
   }),
-  style: civilStyle,
 });
 
-type civilProperties = {
+type CivilProperties = {
   navn: string;
   url: string;
 };
 
-type CivilFeature = {
-  getProperties(): civilProperties;
-} & Feature<Point>;
-
-function civilStyle(f: FeatureLike) {
-  const feature = f as CivilFeature;
-  const civil = feature.getProperties();
-  return new Style({
-    image: new Circle({
-      stroke: new Stroke({ color: "white", width: 1 }),
-      fill: new Fill({
-        color: civil.navn === "Oslo" ? "blue" : "purple",
-      }),
-      radius: 5,
-    }),
-  });
-}
+type CivilFeature = Feature<Point> & {
+  getProperties(): CivilProperties;
+};
 
 function activeCivilStyle(f: FeatureLike, resolution: number) {
   const feature = f as CivilFeature;
   const civil = feature.getProperties();
   return new Style({
     image: new Circle({
-      stroke: new Stroke({ color: "white", width: 3 }),
+      stroke: new Stroke({ color: "black", width: 3 }),
       fill: new Fill({
         color: civil.navn === "Oslo" ? "blue" : "purple",
       }),
@@ -67,10 +51,20 @@ function activeCivilStyle(f: FeatureLike, resolution: number) {
 }
 
 export function CivilLayerCheckbox() {
-  const { map } = useContext(MapContext);
+  const { map, setFeatureLayers } = useContext(MapContext);
   const [checked, setChecked] = useState(false);
-
   const [activeFeature, setActiveFeature] = useState<CivilFeature>();
+
+  useEffect(() => {
+    // Add civilLayer to the map layers when checked
+    if (checked && civilLayer) {
+      setFeatureLayers((prevLayers) => [...prevLayers, civilLayer]);
+    } else {
+      setFeatureLayers((prevLayers) =>
+        prevLayers.filter((layer) => layer !== civilLayer),
+      );
+    }
+  }, [checked, setFeatureLayers]);
 
   function handlePointerMove(e: MapBrowserEvent<MouseEvent>) {
     const resolution = map.getView().getResolution();
@@ -90,18 +84,22 @@ export function CivilLayerCheckbox() {
   }
 
   useEffect(() => {
-    activeFeature?.setStyle(activeCivilStyle);
+    // Set style for active feature
+    activeFeature?.setStyle((f: FeatureLike, resolution: number) =>
+      activeCivilStyle(f, resolution),
+    );
     return () => activeFeature?.setStyle(undefined);
   }, [activeFeature]);
 
-  useLayer(civilLayer, checked);
-
   useEffect(() => {
+    // Add pointer move event listener when checked
     if (checked) {
       map?.on("pointermove", handlePointerMove);
+    } else {
+      map?.un("pointermove", handlePointerMove);
     }
     return () => map?.un("pointermove", handlePointerMove);
-  }, [checked]);
+  }, [checked, map]);
 
   return (
     <div>
@@ -112,12 +110,14 @@ export function CivilLayerCheckbox() {
           onChange={(e) => setChecked(e.target.checked)}
         />
         Show Civil Defense Regions
-        {activeFeature &&
-          " (" +
-            activeFeature.getProperties().navn +
-            " " +
-            activeFeature.getProperties().url +
-            ")"}
+        {activeFeature && (
+          <>
+            {" ("}
+            {activeFeature.getProperties().navn}{" "}
+            {activeFeature.getProperties().url}
+            {")"}
+          </>
+        )}
       </label>
     </div>
   );

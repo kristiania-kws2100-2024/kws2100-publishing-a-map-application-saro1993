@@ -64,10 +64,11 @@ export function Application() {
   }, []);
 
   useEffect(() => {
-    const handleMapClick = (event: MapBrowserEvent<any>) => {
+    const handleMapClick = (event: MapBrowserEvent<MouseEvent>) => {
       map.forEachFeatureAtPixel(event.pixel, (feature) => {
         const properties = feature.getProperties();
         console.log(properties.romnr, properties.plasser, properties.adresse);
+        console.log(properties.navn, properties.url);
       });
     };
 

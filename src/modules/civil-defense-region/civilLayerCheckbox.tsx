@@ -10,14 +10,6 @@ import { MapContext } from "../map/mapContext";
 
 const civilFileLocation = "data/Sivilforsvarsdistrikter.json";
 
-const civilLayer = new VectorLayer({
-  source: new VectorSource({
-    url: civilFileLocation,
-    format: new GeoJSON(),
-  }),
-  visible: false, // Initially set the layer to invisible
-});
-
 type CivilProperties = {
   navn: string;
   url: string;
@@ -32,7 +24,7 @@ function activeCivilStyle(f: FeatureLike, resolution: number) {
   const civil = feature.getProperties();
   return new Style({
     image: new Circle({
-      stroke: new Stroke({ color: "white", width: 3 }),
+      stroke: new Stroke({ color: "black", width: 3 }),
       fill: new Fill({
         color: civil.navn === "Oslo" ? "blue" : "purple",
       }),
@@ -57,12 +49,14 @@ export function CivilLayerCheckbox() {
   const [activeFeature, setActiveFeature] = useState<CivilFeature>();
 
   useEffect(() => {
-    // Update layer visibility based on checked state
-    civilLayer.setVisible(checked);
-  }, [checked]);
+    const civilLayer = new VectorLayer({
+      source: new VectorSource({
+        url: civilFileLocation,
+        format: new GeoJSON(),
+      }),
+      visible: checked,
+    });
 
-  useEffect(() => {
-    // Add or remove civilLayer from the feature layers list
     if (checked) {
       setFeatureLayers((prevLayers) => [...prevLayers, civilLayer]);
     } else {
@@ -70,48 +64,52 @@ export function CivilLayerCheckbox() {
         prevLayers.filter((layer) => layer !== civilLayer),
       );
     }
-  }, [checked, setFeatureLayers]);
 
-  function handlePointerMove(e: MapBrowserEvent<MouseEvent>) {
-    const resolution = map.getView().getResolution();
-    if (!resolution || resolution > 100) {
-      return;
+    function handlePointerMove(e: MapBrowserEvent<MouseEvent>) {
+      const resolution = map.getView().getResolution();
+      if (!resolution || resolution > 100) {
+        return;
+      }
+      const features: FeatureLike[] = [];
+      map.forEachFeatureAtPixel(e.pixel, (f) => features.push(f), {
+        hitTolerance: 5,
+        layerFilter: (l) => l === civilLayer,
+      });
+      if (features.length === 1) {
+        setActiveFeature(features[0] as CivilFeature);
+      } else {
+        setActiveFeature(undefined);
+      }
     }
-    const features: FeatureLike[] = [];
-    map.forEachFeatureAtPixel(e.pixel, (f) => features.push(f), {
-      hitTolerance: 5,
-      layerFilter: (l) => l === civilLayer,
-    });
-    if (features.length === 1) {
-      setActiveFeature(features[0] as CivilFeature);
+
+    if (checked) {
+      map?.on("pointermove", handlePointerMove);
     } else {
-      setActiveFeature(undefined);
+      map?.un("pointermove", handlePointerMove);
     }
-  }
+
+    return () => {
+      map?.un("pointermove", handlePointerMove);
+      if (checked) {
+        setFeatureLayers((prevLayers) =>
+          prevLayers.filter((layer) => layer !== civilLayer),
+        );
+      }
+    };
+  }, [checked, setFeatureLayers, map]);
 
   useEffect(() => {
-    // Set style for active feature
     activeFeature?.setStyle((f: FeatureLike, resolution: number) =>
       activeCivilStyle(f, resolution),
     );
     return () => activeFeature?.setStyle(undefined);
   }, [activeFeature]);
 
-  useEffect(() => {
-    // Add or remove pointer move event listener based on checked state
-    if (checked) {
-      map?.on("pointermove", handlePointerMove);
-    } else {
-      map?.un("pointermove", handlePointerMove);
-    }
-    return () => map?.un("pointermove", handlePointerMove);
-  }, [checked, map]);
-
   return (
     <div>
       <label>
         <input
-          type="checkbox"
+          type={"checkbox"}
           checked={checked}
           onChange={(e) => setChecked(e.target.checked)}
         />

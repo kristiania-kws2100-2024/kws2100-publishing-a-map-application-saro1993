@@ -8,17 +8,15 @@ import React, {
 import View from "ol/View";
 import TileLayer from "ol/layer/Tile";
 import OSM from "ol/source/OSM";
-import { Circle as CircleStyle, Fill, Stroke, Style } from "ol/style";
 import "./application.css";
 import "ol/ol.css";
 import { Layer } from "ol/layer";
 import { MapBrowserEvent } from "ol";
 import { map, MapContext } from "../map/mapContext";
-import { EmergencyAside } from "../emergrncy-shelter/emergencyAside";
-import { EmergencyLayerCheckbox } from "../emergrncy-shelter/emergencyLayerCheckbox";
+import { EmergencyAside } from "../emergency-shelter/emergencyAside";
+import { EmergencyLayerCheckbox } from "../emergency-shelter/emergencyLayerCheckbox";
 import { CivilAside } from "../civil-defense-region/CivilAside";
 import { CivilLayerCheckbox } from "../civil-defense-region/civilLayerCheckbox";
-import VectorLayer from "ol/layer/Vector";
 
 export function Application() {
   useEffect(() => map.setView(new View({ center: [10, 59], zoom: 5 })), []);
@@ -35,28 +33,7 @@ export function Application() {
 
   useEffect(() => {
     map.setLayers(layers);
-    map.getView().on("change:resolution", updateStylesBasedOnZoom);
   }, [layers, featureLayers]);
-
-  const updateStylesBasedOnZoom = () => {
-    const zoom = map.getView().getZoom() || 0;
-    featureLayers.forEach((layer) => {
-      if (layer instanceof VectorLayer) {
-        const style = createStyle(zoom);
-        layer.setStyle(style);
-      }
-    });
-  };
-
-  const createStyle = (zoom: number) => {
-    return new Style({
-      image: new CircleStyle({
-        radius: zoom,
-        fill: new Fill({ color: "red" }),
-        stroke: new Stroke({ color: "black" }),
-      }),
-    });
-  };
 
   const mapRef = useRef() as MutableRefObject<HTMLDivElement>;
   useEffect(() => {
@@ -104,7 +81,7 @@ export function Application() {
       </header>
       <nav>
         <EmergencyLayerCheckbox />
-        <CivilLayerCheckbox />{" "}
+        <CivilLayerCheckbox />
       </nav>
       <main>
         <div ref={mapRef} className="mapContainer"></div>

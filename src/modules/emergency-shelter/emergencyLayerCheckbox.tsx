@@ -8,7 +8,7 @@ import { Feature, MapBrowserEvent } from "ol";
 import { Point } from "ol/geom";
 import { FeatureLike } from "ol/Feature";
 import { MapContext } from "../map/mapContext";
-const emergencyFileLocation = "data/Offentlige_tilfluktsrom.json";
+const emergencyFileLocation = "data/Offentlige _tilfluktsrom.json";
 
 const emergencyLayer = new VectorLayer({
   source: new VectorSource({
@@ -113,7 +113,7 @@ export function EmergencyLayerCheckbox() {
           checked={checked}
           onChange={(e) => setChecked(e.target.checked)}
         />
-        Show emergency shelterss
+        Show emergency shelters
         {activeFeature &&
           " (" +
             activeFeature.getProperties().adresse +

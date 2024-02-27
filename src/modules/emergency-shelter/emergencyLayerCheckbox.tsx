@@ -8,7 +8,8 @@ import { Feature, MapBrowserEvent } from "ol";
 import { Point } from "ol/geom";
 import { FeatureLike } from "ol/Feature";
 import { MapContext } from "../map/mapContext";
-const emergencyFileLocation = "data/Offentlige _tilfluktsrom.json";
+const emergencyFileLocation =
+  "https://github.com/kristiania-kws2100-2024/kws2100-publishing-a-map-application-saro1993/blob/dc4cc2b326b1390c39c73bbf82c7ae8516f18112/public/data/Offentlige_tilfluktsrom.json";
 
 const emergencyLayer = new VectorLayer({
   source: new VectorSource({

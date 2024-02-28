@@ -3,11 +3,15 @@ import { useLayer } from "../map/useLayer";
 import VectorLayer from "ol/layer/Vector";
 import VectorSource from "ol/source/Vector";
 import { GeoJSON } from "ol/format";
-import { Circle, Fill, Stroke, Style, Text } from "ol/style";
-import { Feature, MapBrowserEvent } from "ol";
-import { Point } from "ol/geom";
+import { MapBrowserEvent } from "ol";
 import { FeatureLike } from "ol/Feature";
 import { MapContext } from "../map/mapContext";
+import {
+  shelterStyle,
+  activeShelterStyle,
+  ShelterFeature,
+} from "./emergencyStyle"; // Import shelterStyle and activeShelterStyle from emergencyStyle.tsx
+
 const emergencyFileLocation = "./data/Offentlige_tilfluktsrom.json";
 
 const emergencyLayer = new VectorLayer({
@@ -15,86 +19,32 @@ const emergencyLayer = new VectorLayer({
     url: emergencyFileLocation,
     format: new GeoJSON(),
   }),
-  style: emergencyStyle,
+  style: shelterStyle, // Use shelterStyle instead of emergencyStyle
 });
-
-type emergencyProperties = {
-  romnr: number;
-  plasser: number;
-  adresse: string;
-};
-
-type EmergencyFeature = {
-  getProperties(): emergencyProperties;
-} & Feature<Point>;
-
-function emergencyStyle(f: FeatureLike) {
-  const feature = f as EmergencyFeature;
-  const _radius = 2 + Math.sqrt(feature.getProperties().plasser) / 4;
-  const emergency = feature.getProperties();
-  return new Style({
-    image: new Circle({
-      stroke: new Stroke({ color: "white", width: 1 }),
-      fill: new Fill({
-        color: emergency.plasser > 100 ? "blue" : "purple",
-      }),
-      radius: _radius,
-    }),
-  });
-}
-
-function activeEmergencyStyle(f: FeatureLike, resolution: number) {
-  const feature = f as EmergencyFeature;
-  const _radius = 2 + Math.sqrt(feature.getProperties().plasser) / 4;
-  const emergency = feature.getProperties();
-  return new Style({
-    image: new Circle({
-      stroke: new Stroke({ color: "white", width: 3 }),
-      fill: new Fill({
-        color: emergency.plasser > 10 ? "blue" : "purple",
-      }),
-      radius: _radius,
-    }),
-    text:
-      resolution < 75
-        ? new Text({
-            text: emergency.adresse,
-            offsetY: -15,
-            font: "bold 14px sans-serif",
-            fill: new Fill({ color: "black" }),
-            stroke: new Stroke({ color: "white", width: 2 }),
-          })
-        : undefined,
-  });
-}
 
 export function EmergencyLayerCheckbox() {
   const { map } = useContext(MapContext);
   const [checked, setChecked] = useState(false);
-
-  const [activeFeature, setActiveFeature] = useState<EmergencyFeature>();
+  const [activeFeature, setActiveFeature] = useState<ShelterFeature>(); // Change EmergencyFeature to ShelterFeature
 
   function handlePointerMove(e: MapBrowserEvent<MouseEvent>) {
-    const resolution = map.getView().getResolution();
-    if (!resolution || resolution > 100) {
-      return;
-    }
+    map.getView().getResolution();
     const features: FeatureLike[] = [];
     map.forEachFeatureAtPixel(e.pixel, (f) => features.push(f), {
       hitTolerance: 5,
       layerFilter: (l) => l === emergencyLayer,
     });
     if (features.length === 1) {
-      setActiveFeature(features[0] as EmergencyFeature);
+      setActiveFeature(features[0] as ShelterFeature); // Change EmergencyFeature to ShelterFeature
     } else {
       setActiveFeature(undefined);
     }
   }
 
   useEffect(() => {
-    activeFeature?.setStyle(activeEmergencyStyle);
+    activeFeature?.setStyle(activeShelterStyle); // Use activeShelterStyle instead of activeEmergencyStyle
     return () => activeFeature?.setStyle(undefined);
-  }, [activeFeature]);
+  }, [activeFeature, map]); // Include activeFeature and map in the dependency array
 
   useLayer(emergencyLayer, checked);
 
@@ -103,24 +53,18 @@ export function EmergencyLayerCheckbox() {
       map?.on("pointermove", handlePointerMove);
     }
     return () => map?.un("pointermove", handlePointerMove);
-  }, [checked]);
+  }, [checked, map, handlePointerMove]);
 
   return (
-    <div>
-      <label>
-        <input
-          type={"checkbox"}
-          checked={checked}
-          onChange={(e) => setChecked(e.target.checked)}
-        />
-        Show emergency shelters
-        {activeFeature &&
-          " (" +
-            activeFeature.getProperties().adresse +
-            " " +
-            activeFeature.getProperties().romnr +
-            ")"}
-      </label>
-    </div>
+      <div>
+        <label>
+          <input
+              type={"checkbox"}
+              checked={checked}
+              onChange={(e) => setChecked(e.target.checked)}
+          />
+          Show emergency shelters
+        </label>
+      </div>
   );
 }

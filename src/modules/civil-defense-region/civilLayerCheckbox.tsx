@@ -40,7 +40,6 @@ export function CivilLayerCheckbox() {
       map.forEachFeatureAtPixel(
         e.pixel,
         (f) => {
-          e.stopPropagation(); // Prevent further event propagation to stop the zoom effect
           features.push(f as Feature<Point>);
         },
         {
@@ -54,17 +53,40 @@ export function CivilLayerCheckbox() {
         map.getOverlays().clear();
         // Display link bubble on the map
         const properties = features[0].getProperties();
+
+        // Create a container for the link bubble content
+        const linkBubbleContainer = document.createElement("div");
+        linkBubbleContainer.className = "link-bubble-container";
+
+        // Create the link element
+        const linkElement = document.createElement("a");
+        linkElement.href = properties.url;
+        linkElement.target = "_blank";
+        linkElement.rel = "noopener noreferrer";
+        linkElement.textContent = properties.url;
+
+        // Create the additional message element
+        const messageElement = document.createElement("p");
+        messageElement.textContent = "  --> Click for more info!";
+
+        // Append the link and message elements to the container
+        linkBubbleContainer.appendChild(linkElement);
+        linkBubbleContainer.appendChild(messageElement);
+
+        // Set the content of the link bubble to the container
         const linkBubble = document.createElement("div");
         linkBubble.className = "link-bubble";
-        linkBubble.innerHTML = `
-      <a href="${properties.url}" target="_blank" rel="noopener noreferrer">
-        ${properties.url}
-      </a>
-    `;
+        linkBubble.appendChild(linkBubbleContainer);
+
+        // Convert map coordinates to pixels
+        const pixel = map.getPixelFromCoordinate(e.coordinate);
+        // Add offset to position the overlay slightly above the feature
+        pixel[1] -= 10;
+        const position = map.getCoordinateFromPixel(pixel);
         map.addOverlay(
           new Overlay({
             element: linkBubble,
-            position: e.coordinate,
+            position: position,
           }),
         );
       } else {
@@ -91,14 +113,12 @@ export function CivilLayerCheckbox() {
   }, [checked, setFeatureLayers, map]);
 
   useEffect(() => {
-    // Apply hover style when feature is active
     if (activeFeature) {
       activeFeature.setStyle(hoverCivilStyle);
     } else {
       map?.getLayers().forEach((layer) => layer.changed());
     }
     return () => {
-      // Restore normal style when feature is inactive
       activeFeature?.setStyle(normalCivilStyle);
     };
   }, [activeFeature, map]);

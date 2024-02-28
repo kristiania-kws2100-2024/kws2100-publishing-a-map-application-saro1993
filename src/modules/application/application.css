@@ -58,7 +58,6 @@ main aside.visible {
   grid-template-columns: auto;
 }
 
-/* General styling for aside items */
 main aside > * {
   padding: 0.5rem;
   min-width: 25ch;

@@ -67,7 +67,7 @@ export function Application() {
       (pos) => {
         const { latitude, longitude } = pos.coords;
         map.getView().setCenter([longitude, latitude]);
-        map.getView().setZoom(10);
+        map.getView().setZoom(15);
       },
       (error) => {
         console.error("Error getting user location:", error);

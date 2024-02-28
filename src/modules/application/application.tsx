@@ -17,6 +17,9 @@ import { EmergencyAside } from "../emergency-shelter/emergencyAside";
 import { EmergencyLayerCheckbox } from "../emergency-shelter/emergencyLayerCheckbox";
 import { CivilAside } from "../civil-defense-region/CivilAside";
 import { CivilLayerCheckbox } from "../civil-defense-region/civilLayerCheckbox";
+import { Style, Fill, Stroke } from "ol/style";
+import VectorLayer from "ol/layer/Vector";
+import VectorSource from "ol/source/Vector"; // Import VectorSource
 
 export function Application() {
   useEffect(() => map.setView(new View({ center: [10, 59], zoom: 5 })), []);
@@ -60,6 +63,45 @@ export function Application() {
     console.log(e.target.value);
   };
 
+  // Function to handle focusing on user's location
+  function handleFocusUser(event: React.MouseEvent) {
+    event.preventDefault();
+    navigator.geolocation.getCurrentPosition(
+      (pos) => {
+        const { latitude, longitude } = pos.coords;
+        map.getView().setCenter([longitude, latitude]);
+        map.getView().setZoom(10);
+
+        // Create a new style for the vector layer
+        const newStyle = new Style({
+          fill: new Fill({
+            color: "rgba(255, 100, 50, 0.5)",
+          }),
+          stroke: new Stroke({
+            color: "#ff0000",
+            width: 2,
+          }),
+        });
+
+        // Find the vector layer in the map's layers
+        const vectorLayer = map
+          .getLayers()
+          .getArray()
+          .find(
+            (layer) => layer instanceof VectorLayer,
+          ) as VectorLayer<VectorSource>; // Specify VectorSource type argument
+
+        // If the vector layer exists, set its style
+        if (vectorLayer) {
+          vectorLayer.setStyle(newStyle);
+        }
+      },
+      (error) => {
+        console.error("Error getting user location:", error);
+      },
+    );
+  }
+
   return (
     <MapContext.Provider
       value={{ map, featureLayers, setFeatureLayers, setBaseLayer }}
@@ -76,12 +118,18 @@ export function Application() {
           placeholder="to location"
           onChange={handleSearchInput}
         />
-
         <button>Search</button>
       </header>
       <nav>
-        <EmergencyLayerCheckbox />
-        <CivilLayerCheckbox />
+        <button className="btn-led" onClick={handleFocusUser}>
+          My Location
+        </button>
+        <div className="nav-item">
+          <EmergencyLayerCheckbox />
+        </div>
+        <div className="nav-item">
+          <CivilLayerCheckbox />
+        </div>
       </nav>
       <main>
         <div ref={mapRef} className="mapContainer"></div>

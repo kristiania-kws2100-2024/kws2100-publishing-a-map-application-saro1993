@@ -56,15 +56,15 @@ export function EmergencyLayerCheckbox() {
   }, [checked, map, handlePointerMove]);
 
   return (
-      <div>
-        <label>
-          <input
-              type={"checkbox"}
-              checked={checked}
-              onChange={(e) => setChecked(e.target.checked)}
-          />
-          Show emergency shelters
-        </label>
-      </div>
+    <div>
+      <label>
+        <input
+          type={"checkbox"}
+          checked={checked}
+          onChange={(e) => setChecked(e.target.checked)}
+        />
+        Show emergency shelters
+      </label>
+    </div>
   );
 }

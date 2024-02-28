@@ -9,7 +9,7 @@
     {
       "type": "Feature",
       "properties": {
-        "url": "http://www.sivilforsvaret.no/Distrikter/hedmark/Om-distriktet/",
+        "url": "https://www.sivilforsvaret.no/ditt-distrikt/buskerud/",
         "navn": "Hedmark sivilforsvarsdistrikt"
       },
       "geometry": {
@@ -423,7 +423,7 @@
     {
       "type": "Feature",
       "properties": {
-        "url": "http://www.sivilforsvaret.no/Distrikter/More-og-Romsdal/Om-distrikt",
+        "url": "https://www.sivilforsvaret.no/ditt-distrikt/more-og-romsdal/",
         "navn": "Møre og Romsdal sivilforsvarsdistrikt"
       },
       "geometry": {
@@ -4283,7 +4283,7 @@
     {
       "type": "Feature",
       "properties": {
-        "url": "http://www.sivilforsvaret.no/Distrikter/Oslo-og-Akershus/Om-distrik",
+        "url": "https://www.sivilforsvaret.no/ditt-distrikt/oslo-og-akershus/",
         "navn": "Oslo og Akershus sivilforsvarsdistrikt"
       },
       "geometry": {
@@ -5911,7 +5911,7 @@
     {
       "type": "Feature",
       "properties": {
-        "url": "http://www.sivilforsvaret.no/Distrikter/Sogn-og-Fjordane/Om-distrik",
+        "url": "https://www.sivilforsvaret.no/ditt-distrikt/sogn-og-fjordane/",
         "navn": "Sogn og Fjordane sivilforsvarsdistrikt"
       },
       "geometry": {
@@ -6203,7 +6203,7 @@
     {
       "type": "Feature",
       "properties": {
-        "url": "http://www.sivilforsvaret.no/Distrikter/Vestfold/Om-distriktet/",
+        "url": "https://www.sivilforsvaret.no/ditt-distrikt/vestfold/",
         "navn": "Vestfold sivilforsvarsdistrikt"
       },
       "geometry": {
@@ -6319,7 +6319,7 @@
     {
       "type": "Feature",
       "properties": {
-        "url": "http://www.sivilforsvaret.no/Distrikter/Telemark/Om-distriktet/",
+        "url": "https://www.sivilforsvaret.no/ditt-distrikt/telemark/",
         "navn": "Telemark sivilforsvarsdistrikt"
       },
       "geometry": {
@@ -6556,7 +6556,7 @@
     {
       "type": "Feature",
       "properties": {
-        "url": "http://www.sivilforsvaret.no/Distrikter/Aust-Agder/Om-distriktet/",
+        "url": "https://www.sivilforsvaret.no/ditt-distrikt/aust-agder/",
         "navn": "Aust-Agder sivilforsvarsdistrikt"
       },
       "geometry": {
@@ -6830,7 +6830,7 @@
     {
       "type": "Feature",
       "properties": {
-        "url": "http://www.sivilforsvaret.no/Distrikter/Buskerud/Om-distriktet/",
+        "url": "https://www.sivilforsvaret.no/ditt-distrikt/buskerud/",
         "navn": "Buskerud sivilforsvarsdistrikt"
       },
       "geometry": {
@@ -8461,7 +8461,7 @@
     {
       "type": "Feature",
       "properties": {
-        "url": "http://www.sivilforsvaret.no/Distrikter/Ostfold/Om-distriktet/",
+        "url": "https://www.sivilforsvaret.no/ditt-distrikt/ostfold/",
         "navn": "Østfold sivilforsvarsdistrikt"
       },
       "geometry": {
@@ -8752,7 +8752,7 @@
     {
       "type": "Feature",
       "properties": {
-        "url": "http://www.sivilforsvaret.no/Distrikter/Ost-Finnmark/Om-distriktet/",
+        "url": "https://www.sivilforsvaret.no/ditt-distrikt/ost-finnmark/",
         "navn": "Øst-Finnmark sivilforsvarsdistrikt"
       },
       "geometry": {
@@ -9115,7 +9115,7 @@
     {
       "type": "Feature",
       "properties": {
-        "url": "http://www.sivilforsvaret.no/Distrikter/Troms/Om-distriktet/",
+        "url": "https://www.sivilforsvaret.no/ditt-distrikt/troms/",
         "navn": "Troms sivilforsvarsdistrikt"
       },
       "geometry": {
@@ -9409,7 +9409,7 @@
     {
       "type": "Feature",
       "properties": {
-        "url": "http://www.sivilforsvaret.no/Distrikter/Sor-Trondelag/Om-distriktet",
+        "url": "https://www.sivilforsvaret.no/ditt-distrikt/sor-trondelag/",
         "navn": "Sør-Trøndelag sivilforsvarsdistrikt"
       },
       "geometry": {
@@ -13740,7 +13740,7 @@
     {
       "type": "Feature",
       "properties": {
-        "url": "http://www.sivilforsvaret.no/Distrikter/Rogaland/Om-distriktet/",
+        "url": "https://www.sivilforsvaret.no/ditt-distrikt/rogaland/",
         "navn": "Rogaland sivilforsvarsdistrikt"
       },
       "geometry": {
@@ -13944,7 +13944,7 @@
     {
       "type": "Feature",
       "properties": {
-        "url": "http://www.sivilforsvaret.no/Distrikter/Oppland/Om-distriktet/",
+        "url": "https://www.sivilforsvaret.no/ditt-distrikt/oppland/",
         "navn": "Oppland sivilforsvarsdistrikt"
       },
       "geometry": {
@@ -14264,7 +14264,7 @@
     {
       "type": "Feature",
       "properties": {
-        "url": "http://www.sivilforsvaret.no/Distrikter/Hordaland/Om-distriktet/",
+        "url": "https://www.sivilforsvaret.no/ditt-distrikt/hordaland/",
         "navn": "Hordaland sivilforsvarsdistrikt"
       },
       "geometry": {
@@ -14502,7 +14502,7 @@
     {
       "type": "Feature",
       "properties": {
-        "url": "http://www.sivilforsvaret.no/Distrikter/Midtre-Halogaland/Om-distri",
+        "url": "https://www.sivilforsvaret.no/ditt-distrikt/midtre-halogaland/",
         "navn": "Midtre Hålogaland sivilforsvarsdistrikt"
       },
       "geometry": {
@@ -14721,7 +14721,7 @@
     {
       "type": "Feature",
       "properties": {
-        "url": "http://www.sivilforsvaret.no/Distrikter/Nordland/Om-distriktet/",
+        "url": "https://www.sivilforsvaret.no/ditt-distrikt/nordland/",
         "navn": "Nordland sivilforsvarsdistrikt"
       },
       "geometry": {
@@ -15001,7 +15001,7 @@
     {
       "type": "Feature",
       "properties": {
-        "url": "http://www.sivilforsvaret.no/Distrikter/Nord-Trondelag/Om-distrikte",
+        "url": "https://www.sivilforsvaret.no/ditt-distrikt/nord-trondelag/",
         "navn": "Nord-Trøndelag sivilforsvarsdistrikt"
       },
       "geometry": {
@@ -15681,7 +15681,7 @@
     {
       "type": "Feature",
       "properties": {
-        "url": "http://www.sivilforsvaret.no/Distrikter/Vest-Finnmark/Om-distriktet",
+        "url": "https://www.sivilforsvaret.no/ditt-distrikt/vest-finnmark/",
         "navn": "Vest-Finnmark sivilforsvarsdistrikt"
       },
       "geometry": {
@@ -16007,7 +16007,7 @@
     {
       "type": "Feature",
       "properties": {
-        "url": "http://www.sivilforsvaret.no/Distrikter/Vest-Agder/Om-distriktet/",
+        "url": "https://www.sivilforsvaret.no/ditt-distrikt/vest-finnmark/",
         "navn": "Vest-Agder sivilforsvarsdistrikt"
       },
       "geometry": {

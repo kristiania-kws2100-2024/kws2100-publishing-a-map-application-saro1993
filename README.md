@@ -1,7 +1,7 @@
 
 
 # KWS2100 Assignment 1
-
+click on this green badgee to run
 [![Deployed on GitHub Pages](https://img.shields.io/badge/Deployed%20on-GitHub%20Pages-brightgreen)](https://kristiania-kws2100-2024.github.io/kws2100-publishing-a-map-application-saro1993/)
 
 The goal of this assignment is to verify that you're able to deploy a working web application:

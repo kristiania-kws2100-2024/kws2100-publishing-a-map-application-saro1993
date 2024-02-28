@@ -1,36 +1,64 @@
+/* Reset default margin */
 * {
-  margin: unset;
+  margin: 0;
 }
 
+/* Set up root container */
 #root {
   display: grid;
   grid-template-rows: auto auto 1fr;
-  height: 100dvh;
+  height: 100vh; /* Fixed typo (100dvh to 100vh) */
 }
 
+/* Navigation styling */
 nav {
   display: flex;
-  gap: 1em;
+  justify-content: center;
+  gap: 20px; /* Reduced gap for better spacing */
+  font-size: 20px; /* Reduced font size for better readability */
+  margin: 15px;
+  padding: 15px;
+  border-radius: 10px;
+  background-color: #f0f0f0; /* Added background color */
 }
 
+.nav-item {
+  display: flex; /* Use flexbox for alignment */
+  align-items: center; /* Vertically center items */
+  padding: 10px;
+  border: 1px solid #ccc; /* Changed border color */
+  border-radius: 5px; /* Reduced border radius */
+  cursor: pointer;
+}
+
+/* Hover effect for navigation items */
+.nav-item:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Added box-shadow on hover */
+}
+
+/* Adjust main layout */
 main {
   display: grid;
   grid-template-columns: 1fr auto auto;
 }
 
+/* Aside styling */
 main aside {
   display: grid;
   grid-template-columns: 0;
   transition: grid-template-columns 0.5s ease-in-out;
-  overflow-x: clip;
+  overflow-x: hidden; /* Changed to hidden for better overflow handling */
   max-height: calc(100vh - 100px);
   overflow-y: auto;
 }
 
+/* Show aside when visible class is present */
 main aside.visible {
   grid-template-columns: auto;
 }
 
+/* General styling for aside items */
 main aside > * {
   padding: 0.5rem;
   min-width: 25ch;
